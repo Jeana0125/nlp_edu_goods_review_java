@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Write the review</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<style type="text/css">
+    .container{
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-top: 70px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        //자동 생성
+        $('#createReviewBtn').click(function (){
+            alert("created");
+        });
+
+        //저장
+        $('#saveReviewBtn').click(function (){
+
+            var reviewObj = {reviewerName:'',asin:'',overall:'',summary:'',reviewText:''}
+            //성명
+            var name = $("input[name='reviewerName']").val();
+            if(name == null || name == undefined|| name == ""){
+                $("input[name='reviewerName']").css('borderColor','red');
+                return;
+            }else{
+                $("input[name='reviewerName']").css('borderColor','');
+                reviewObj.reviewerName = name;
+            }
+
+            //상품
+            var title = $("select[name='title'] option:selected").val();
+            if(title == null || title == undefined|| title == ""){
+                $("select[name='title']").css('borderColor','red');
+                return;
+            }else{
+                $("select[name='title']").css('borderColor','');
+                reviewObj.asin = title;
+            }
+
+            //평점
+            var overall = $("select[name='overall'] option:selected").val();
+            if(overall == null || overall == undefined|| overall == ""){
+                $("select[name='overall']").css('borderColor','red');
+                return;
+            }else{
+                $("select[name='overall']").css('borderColor','');
+                reviewObj.overall = overall;
+            }
+
+            //총괄
+            var summary =  $("input[name='summary']").val();
+            if(summary == null || summary == undefined|| summary == ""){
+                $("input[name='summary']").css('borderColor','red');
+                return;
+            }else{
+                $("input[name='summary']").css('borderColor','');
+                reviewObj.summary = summary;
+            }
+            //리뷰
+            var reviewText = $("textarea[name='reviewText']").val();
+            if(reviewText == null || reviewText == undefined|| reviewText == ""){
+                $("textarea[name='reviewText']").css('borderColor','red');
+                return;
+            }else{
+                $("textarea[name='reviewText']").css('borderColor','');
+                reviewObj.reviewText = reviewText;
+            }
+
+
+            $.ajax({
+                url: "http://localhost:9999/nlp/review/insertReview",
+                type: "post",
+                contentType: "application/json;charset=utf-8",
+                data:JSON.stringify(reviewObj),
+                async:false,
+                success: function(json){
+                    console.log(json);
+                }
+            });
+
+        });
+    });
+
+</script>
+
+<div class="container">
+    <div class="page-header">
+        <h2>상품 리뷰 작성</h2>
+    </div>
+    <div class="">
+        <table class="table table-striped table-hover table-bordered">
+            <tr>
+                <th>성명:</th>
+                <td>
+                    <input type="text" name="reviewerName" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <th>상품:</th>
+                <td>
+                    <select name="title" id="productList">
+                        <option th:each="item:${productList}" th:value="${item.asin}" th:text="${item.title}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>평점:</th>
+                <td>
+                    <select style="width: 100px;" name="overall" id="overallList">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>타이틀:</th>
+                <td><input style="width: 300px;" type="text" name="summary" value=""/></td>
+            </tr>
+            <tr>
+                <th>리뷰:</th>
+                <td><textarea rows="4" cols="40" name="reviewText"></textarea></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <button class="btn btn-primary btn-lg" id="createReviewBtn">자동 생성</button>
+                    <button class="btn btn-primary btn-lg" id="saveReviewBtn">저장</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nlp.code.java.mapper.ReviewMapper">
+
+    <resultMap id="ProductResultMap" type="com.nlp.code.java.entity.ProductEntity">
+        <result column="asin" jdbcType="VARCHAR" property="asin" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="price" jdbcType="VARCHAR" property="price" />
+    </resultMap>
+
+
+    <select id="queryProductList" resultType="com.nlp.code.java.entity.ProductEntity">
+        SELECT asin,title,price FROM product_table
+    </select>
+
+    <insert id="insertReview" parameterType="com.nlp.code.java.entity.ReviewEntity" useGeneratedKeys="true" keyProperty="reviewId">
+        INSERT INTO  review_json_table
+        (
+           asin,overall,summary,review_text,review_time,reviewer_name
+        ) VALUES(
+          #{asin,jdbcType=VARCHAR},#{overall,jdbcType=VARCHAR},
+          #{summary,jdbcType=VARCHAR},#{reviewText,jdbcType=VARCHAR},
+          #{reviewTime,jdbcType=VARCHAR},#{reviewerName,jdbcType=VARCHAR}
+        )
+    </insert>
+</mapper>
