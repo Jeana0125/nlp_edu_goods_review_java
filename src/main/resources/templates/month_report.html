@@ -42,6 +42,7 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
+    	
     	$('#datetimepicker1').datetimepicker({
    	        format: 'YYYY',
    	        locale: moment.locale('ko')
@@ -51,6 +52,63 @@
    	        locale: moment.locale('ko')
    	    });
       
+   	    $('#btnQuery').click(function(){
+   	    	
+   	    	var reviewObj = {month:'',asin:''}
+   	    	
+   	   		//년
+            var year = $("input[name='yearText']").val();
+            if(year == null || year == undefined|| year == ""){
+                $("input[name='yearText']").css('borderColor','red');
+                return;
+            }else{
+                $("input[name='yearText']").css('borderColor','');
+            }
+            //월
+            var month = $("input[name='monthText']").val();
+            if(month == null || month == undefined|| month == ""){
+                $("input[name='monthText']").css('borderColor','red');
+                return;
+            }else{
+                $("input[name='monthText']").css('borderColor','');
+            }
+            
+            reviewObj.month = year+month;
+            
+            //상품
+            var title = $("select[name='title'] option:selected").val();
+            if(title == null || title == undefined|| title == ""){
+                $("select[name='title']").css('borderColor','red');
+                return;
+            }else{
+                $("select[name='title']").css('borderColor','');
+                reviewObj.asin = title;
+            }
+   	    	
+   	    	$.ajax({
+   	         url: "http://localhost:9999/nlp/review/queryMonthTotal",
+   	         type: "post",
+   	         contentType: "application/json;charset=utf-8",
+   	         data:JSON.stringify(reviewObj),
+   	         async:false,
+   	         success: function(json){
+   	        	 var list = json.monthTotalList;
+   	        	$('#monthTotalContent tbody').empty();
+   	        	 if(list != null){
+   	        		for(var i =0;i<list.length;i++){
+   	        			var tmp = '<tr>'
+   	        					+'<td>'+list[i].month+'</td>'
+   	        					+'<td>'+list[i].title+'</td>'
+   	        					+'<td>'+list[i].brand+'</td>'
+   	        					+'<td>'+list[i].count+'</td>'
+   	        					+'<td>'+list[i].total+'</td>'
+   	        					+'</tr>';
+   	        			$('#monthTotalContent tbody').append(tmp);
+   	        		}
+   	        	 }
+   	         }
+   	     	});
+   	    });
     });
 
 </script>
@@ -63,7 +121,7 @@
 	    <form id ="searchForm" class="form-inline definewidth">
 	    	<div class="form-group" style="width: 200px;">
     			<div class='input-group date form_date' id='datetimepicker1' style="width:150px;">
-	                <input type='text' class="form-control" />
+	                <input type='text' class="form-control" name="yearText"/>
 	                <span class="input-group-addon">
 	                    <span class="glyphicon glyphicon-calendar"></span>
 	                </span>
@@ -72,7 +130,7 @@
     		</div>
         	<div class="form-group" style="width:200px">
 	        	<div class='input-group date form_date' id='datetimepicker2' style="width:150px;">
-	                <input type='text' class="form-control" />
+	                <input type='text' class="form-control" name="monthText" />
 	                <span class="input-group-addon">
 	                    <span class="glyphicon glyphicon-calendar"></span>
 	                </span>
@@ -83,40 +141,28 @@
 	        	<div class= "control-label pro-css"><label>상품: </label></div>
 	        	<div style="float:right;">
 		        	<select name="title" id="productList" class="selectpicker form-control" style="width:250px;">
-		                <option value="1">Book</option>
-		                <option value="1">Book11111111111111111111111111144444444444444444</option>
-		                <option value="1">Book</option>
+		            	<option th:each="item:${productList}" th:value="${item.asin}" th:text="${item.title}"></option>
 		            </select>
 		         </div>
 	         </div>
 	         <div class= "form-group" style="margin-left: 50px;">
-	            <button class="btn btn-success" ><span class="glyphicon glyphicon-search"></span>검색</button>
+	            <button class="btn btn-success" id="btnQuery"><span class="glyphicon glyphicon-search"></span>검색</button>
             </div>
 	    </form>		
     </div>
     <div class="modal-body">
     	
-        <table class="table table-striped table-hover table-bordered">     
+        <table class="table table-striped table-hover table-bordered" id="monthTotalContent">     
         	<thead>
 	            <tr>
 	                <th>년월</th>
 	                <th>상품</th>
 	                <th>브랜드</th>
-	                <th>판매수</th>
+	                <th>판매량</th>
 	                <th>판매액</th>
 	            </tr>    
             </thead>
-            <tbody>
-            	<tr>
-            		<td>년월</td>
-	                <td>상품</td>
-	                <td>브랜드</td>
-	                <td>판매수</td>
-	                <td>판매액</td>
-            	</tr>
-            	
-            </tbody>
-            
+            <tbody></tbody>
         </table>
     </div>
 </div>
