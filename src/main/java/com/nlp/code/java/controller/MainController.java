@@ -1,9 +1,8 @@
 package com.nlp.code.java.controller;
 
-import com.nlp.code.java.entity.ProductEntity;
-import com.nlp.code.java.entity.ReviewEntity;
-import com.nlp.code.java.service.ReviewService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.nlp.code.java.entity.ProductEntity;
+import com.nlp.code.java.entity.ReviewEntity;
+import com.nlp.code.java.service.ReviewService;
+import com.nlp.code.spark.service.ProductListService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping(value = "/review")
@@ -21,6 +24,8 @@ public class MainController {
 
     @Autowired
     private ReviewService reviewService;
+    @Autowired
+    private ProductListService productListService;
 
     /**
      * 상품 리스트
@@ -29,7 +34,7 @@ public class MainController {
     @RequestMapping(value = "/queryList")
     public String queryProductList(Model model){
         log.info("queryProductList start===");
-        //List<ProductEntity> list = reviewService.queryProductList();
+        //List<ProductEntity> list = productListService.getProductList();
         List<ProductEntity> list = new ArrayList<>();
         ProductEntity entity = new ProductEntity();
         entity.setAsin("1");

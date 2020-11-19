@@ -1,29 +1,18 @@
 package com.nlp.code.java.service.impl;
 
-import com.nlp.code.java.common.DateUtils;
-import com.nlp.code.java.entity.ProductEntity;
-import com.nlp.code.java.entity.ReviewEntity;
-import com.nlp.code.java.mapper.ReviewMapper;
-import com.nlp.code.java.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.nlp.code.java.common.DateUtils;
+import com.nlp.code.java.entity.ReviewEntity;
+import com.nlp.code.java.mapper.ReviewMapper;
+import com.nlp.code.java.service.ReviewService;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ReviewMapper reviewMapper;
-
-    /**
-     * 상품 리스트
-     * @return
-     */
-    @Override
-    public List<ProductEntity> queryProductList() {
-        return reviewMapper.queryProductList();
-    }
 
     /**
      * 리뷰 저장

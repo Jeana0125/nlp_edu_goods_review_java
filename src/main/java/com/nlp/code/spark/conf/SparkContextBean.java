@@ -1,5 +1,7 @@
-package com.nlp.code.spark.entity;
+package com.nlp.code.spark.conf;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -11,16 +13,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "spark")
 @Slf4j
+@Getter
+@Setter
 public class SparkContextBean {
 
-    private String sparkHome = ".";
-    private String appName = "";
-    private String master = "local";
+    private static String appName = "";
+    private static String master = "local";
 
     @Bean
     //@ConditionalOnMissingBean: it will ensure that bean has only one
     @ConditionalOnMissingBean(SparkConf.class)
-    public SparkConf sparkConf() throws Exception{
+    public static SparkConf sparkConf() {
         /**
          * spark object create, set the configuration
          * setAppName : set the program name
@@ -32,7 +35,7 @@ public class SparkContextBean {
 
     @Bean
     @ConditionalOnMissingBean(JavaSparkContext.class)
-    public JavaSparkContext javaSparkContext() {
+    public static JavaSparkContext javaSparkContext() {
         try {
             /**
              * SparkContext is the only entry point for all functions of the spark program
@@ -44,30 +47,5 @@ public class SparkContextBean {
         }
 
         return null;
-    }
-
-
-    public String getSparkHome() {
-        return sparkHome;
-    }
-
-    public void setSparkHome(String sparkHome) {
-        this.sparkHome = sparkHome;
-    }
-
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
-
-    public String getMaster() {
-        return master;
-    }
-
-    public void setMaster(String master) {
-        this.master = master;
     }
 }
