@@ -20,7 +20,7 @@ public class DateUtils {
     }
     
     /**
-     * date의 담달 반환
+     * month의 다음 달 반환
      * @param date
      * @return
      */
@@ -46,4 +46,29 @@ public class DateUtils {
     	return null;
     }
 
+    /**
+     * year의 전 년 반환
+     * @param year
+     * @return
+     */
+    public static String getLastYear(String year) {
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); 
+    	SimpleDateFormat bsdf = new SimpleDateFormat("yyyy"); 
+    	String date = year + "0101";
+    	Date dd;
+    	
+		try {
+			dd = sdf.parse(date);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(dd);
+			calendar.add(Calendar.YEAR, -1);
+			
+			return bsdf.format(calendar.getTime());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+    }
 }

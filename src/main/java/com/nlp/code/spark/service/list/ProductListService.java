@@ -1,4 +1,4 @@
-package com.nlp.code.spark.service;
+package com.nlp.code.spark.service.list;
 
 import java.util.ArrayList;
 import java.util.List;

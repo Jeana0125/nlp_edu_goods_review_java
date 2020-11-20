@@ -14,8 +14,8 @@ import com.nlp.code.java.entity.MonthTotalEntity;
 import com.nlp.code.java.entity.ProductEntity;
 import com.nlp.code.java.entity.ReviewEntity;
 import com.nlp.code.java.service.ReviewService;
-import com.nlp.code.spark.service.MonthTotalListService;
-import com.nlp.code.spark.service.ProductListService;
+import com.nlp.code.spark.service.list.MonthTotalListService;
+import com.nlp.code.spark.service.list.ProductListService;
 
 import lombok.extern.slf4j.Slf4j;
 
