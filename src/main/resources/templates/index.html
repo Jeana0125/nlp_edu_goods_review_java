@@ -24,7 +24,60 @@
 
         //자동 생성
         $('#createReviewBtn').click(function (){
-            alert("created");
+        	
+        	 var reviewObj = {reviewerName:'',asin:'',overall:'',summary:'',reviewText:''}
+             //성명
+             var name = $("input[name='reviewerName']").val();
+             if(name == null || name == undefined|| name == ""){
+                 $("input[name='reviewerName']").css('borderColor','red');
+                 return;
+             }else{
+                 $("input[name='reviewerName']").css('borderColor','');
+                 reviewObj.reviewerName = name;
+             }
+
+             //상품
+             var title = $("select[name='title'] option:selected").val();
+             if(title == null || title == undefined|| title == ""){
+                 $("select[name='title']").css('borderColor','red');
+                 return;
+             }else{
+                 $("select[name='title']").css('borderColor','');
+                 reviewObj.asin = title;
+             }
+
+             //평점
+             var overall = $("select[name='overall'] option:selected").val();
+             if(overall == null || overall == undefined|| overall == ""){
+                 $("select[name='overall']").css('borderColor','red');
+                 return;
+             }else{
+                 $("select[name='overall']").css('borderColor','');
+                 reviewObj.overall = overall;
+             }
+
+             //총괄
+             var summary =  $("input[name='summary']").val();
+             if(summary == null || summary == undefined|| summary == ""){
+                 $("input[name='summary']").css('borderColor','red');
+                 return;
+             }else{
+                 $("input[name='summary']").css('borderColor','');
+                 reviewObj.summary = summary;
+             }
+             
+        	 $.ajax({
+                 url: "http://localhost:9999/nlp/review/queryAutoReview",
+                 type: "post",
+                 contentType: "application/json;charset=utf-8",
+                 data:JSON.stringify(reviewObj),
+                 async:false,
+                 success: function(json){
+                     if(json !=null){
+                    	 $("textarea[name='reviewText']").val(json.reviewText);
+                     }
+                 }
+             });
         });
 
         //저장

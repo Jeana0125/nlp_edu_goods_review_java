@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 public class SparkContextBean {
 
-    private static String appName = "";
+    private static String appName = "spark application";
     private static String master = "local";
 
     @Bean

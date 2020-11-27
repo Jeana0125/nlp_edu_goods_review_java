@@ -64,7 +64,7 @@
   <!-- journalnode의 edits log 파일 저장 장소 설정-->
   <property>
     <name>dfs.journalnode.edits.dir</name>
-    <value>/var/bjsxt/hadoop/ha/jnn</value>
+    <value>/var/nlp/hadoop/ha/jnn</value>
   </property>
   <!-- 고장시 자동으로 스탠드바이 노드로 전환-->
   <property>

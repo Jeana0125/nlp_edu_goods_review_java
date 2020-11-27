@@ -12,7 +12,7 @@ import lombok.Setter;
 public class ReviewEntity {
 
     //리뷰 id
-    private String reviewId;
+    private Integer reviewId;
     //상품 id
     private String asin;
     //평점

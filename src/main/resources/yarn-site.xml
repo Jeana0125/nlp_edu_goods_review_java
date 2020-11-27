@@ -32,21 +32,16 @@
   <!-- RM HA의 2개 resourcemanager 명명 -->
   <property>
     <name>yarn.resourcemanager.ha.rm-ids</name>
-    <value>rm1,rm2</value>
+    <value>rm1</value>
   </property>
   <!-- rm1의 reourcemanager 스레드가 존재하는 서버의 지정 -->
   <property>
     <name>yarn.resourcemanager.hostname.rm1</name>
     <value>cdh3</value>
   </property>
-  <!-- rm2의 reourcemanager 스레드가 존재하는 서버의 지정 -->
-  <property>
-    <name>yarn.resourcemanager.hostname.rm2</name>
-    <value>cdh4</value>
-  </property>
   <!-- zookeeper 클러스터의 주소와 포트 설정 -->
   <property>
     <name>yarn.resourcemanager.zk-address</name>
-    <value>cdh2:2181,cdh3:2181,cdh4:2181</value>
+    <value>cdh1:2181</value>
   </property>
 </configuration>

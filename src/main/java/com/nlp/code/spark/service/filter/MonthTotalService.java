@@ -22,7 +22,7 @@ public class MonthTotalService {
 		//집계 테이블에서 마지막 집계 월 가져오기
 		Dataset<Row> preDataset = spark.table("review.product_count_month_rpt");
 		Dataset<Row> monthDataset = preDataset.select("month").sort(preDataset.col("month").desc()).limit(1);
-		if (!monthDataset.isEmpty()) {
+		if (monthDataset != null) {
 			String lastMonth = preDataset.first().getString(0);
 			nowMonth = DateUtils.getNextMonth(lastMonth);
 		}else {
@@ -55,7 +55,13 @@ public class MonthTotalService {
 		//temporary table에 데이터 삽입
 		//resultDataset.write().saveAsTable("product_count_month_rpt_tmp");
 		//집계 정보를 product_count_month_rpt에 넣어주기
-		spark.sql("INSERT INTO TABLE review.product_count_month_rpt select asin,title,total,brand,count,month FROM product_count_month_rpt_tmp");
+		spark.sql("INSERT INTO TABLE review.product_count_month_rpt_hbase "
+				+ "select concat_ws(month,asin,row_number() over (order by t1.id) + t2.id_max),"
+				+ "asin,title,total,brand,count,month "
+				+ "FROM product_count_month_rpt_tmp t1 "
+				+ "CROSS JOIN (SELECT coalesce(max(id),0) id_max "
+				+ "            FROM review.product_count_month_rpt_hbase) "
+				+ " t2");
 		
 		spark.stop();
 		

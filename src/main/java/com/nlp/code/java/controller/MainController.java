@@ -14,9 +14,11 @@ import com.nlp.code.java.entity.MonthTotalEntity;
 import com.nlp.code.java.entity.ProductEntity;
 import com.nlp.code.java.entity.ReviewEntity;
 import com.nlp.code.java.service.ReviewService;
+import com.nlp.code.python.connection.PythonConnectionService;
 import com.nlp.code.spark.service.list.MonthTotalListService;
 import com.nlp.code.spark.service.list.ProductListService;
 
+import breeze.linalg.pinvLowPrio;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -30,6 +32,8 @@ public class MainController {
     private ProductListService productListService;
     @Autowired
     private MonthTotalListService monthTotalListService;
+    @Autowired
+    private PythonConnectionService pcservice;
 
     /**
      * 리뷰 -- 상품 리스트
@@ -38,13 +42,12 @@ public class MainController {
     @RequestMapping(value = "/queryList")
     public String queryProductList(Model model){
         log.info("queryProductList start===");
-        //List<ProductEntity> list = productListService.getProductList();
-        List<ProductEntity> list = new ArrayList<>();
-        ProductEntity entity = new ProductEntity();
-        entity.setAsin("1");
-        entity.setTitle("Book");
-        entity.setPrice("99.8");
-        list.add(entity);
+        List<ProductEntity> list = productListService.getProductList();
+		/*
+		 * List<ProductEntity> list = new ArrayList<>(); ProductEntity entity = new
+		 * ProductEntity(); entity.setAsin("1"); entity.setTitle("Book");
+		 * entity.setPrice("99.8"); list.add(entity);
+		 */
         model.addAttribute("productList",list);
         log.info("queryProductList end===");
         return "index";
@@ -67,10 +70,11 @@ public class MainController {
      * @param entity
      * @return
      */
-    @RequestMapping(value = "/a")
+    @RequestMapping(value = "/queryAutoReview")
     @ResponseBody
     public ReviewEntity queryAutoReview(@RequestBody ReviewEntity entity){
         ReviewEntity result = new ReviewEntity();
+        result = pcservice.getReviewText(entity);
         return result;
     }
     

@@ -33,7 +33,7 @@ public class ProductListService {
 		/*
 		 * 데이터를 읽어오기
 		 */
-		Dataset<Row> ds = sparkSession.sql("select asin,title,price from product_json_fact");
+		Dataset<Row> ds = sparkSession.sql("select asin,title,price from review.product_json_fact");
 		/*
 		 * 
 		 */

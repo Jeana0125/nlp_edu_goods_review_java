@@ -22,8 +22,8 @@ public class YearTrendService {
 		SparkSession spark = SparkSession.builder().config(SparkContextBean.sparkConf()).enableHiveSupport().getOrCreate();
 		
 		Dataset<Row> preDataset = spark.table("review.year_trend_rpt");
-		Dataset<Row> monthDataset = preDataset.select("year").sort(preDataset.col("year").desc()).limit(1);
-		if (!monthDataset.isEmpty()) {
+		Dataset<Row> yearDataset = preDataset.select("year").sort(preDataset.col("year").desc()).limit(1);
+		if (yearDataset!=null) {
 			String lastYear = preDataset.first().getString(0);
 			nowYear = DateUtils.getNextMonth(lastYear);
 		}else {

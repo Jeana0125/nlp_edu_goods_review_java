@@ -50,9 +50,9 @@ public class ReviewSatisfyService {
 		//normalDs.write().saveAsTable("review_satisfy_normal_rpt_tmp");
 		
 		//테이블에 넣기
-		spark.sql("INSERT INTO TABLE review.review_satisfy_rpt select title,review_text,summary,'3' as satisfy,asin FROM review_satisfy_good_rpt_tmp");
-		spark.sql("INSERT INTO TABLE review.review_satisfy_rpt select title,review_text,summary,'1' as satisfy,asin FROM review_satisfy_bad_rpt_tmp");
-		spark.sql("INSERT INTO TABLE review.review_satisfy_rpt select title,review_text,summary,'2' as satisfy,asin FROM review_satisfy_normal_rpt_tmp");
+		spark.sql("INSERT INTO TABLE review.review_satisfy_rpt_hbase select title,review_text,summary,'3' as satisfy,asin FROM review_satisfy_good_rpt_tmp");
+		spark.sql("INSERT INTO TABLE review.review_satisfy_rpt_hbase select title,review_text,summary,'1' as satisfy,asin FROM review_satisfy_bad_rpt_tmp");
+		spark.sql("INSERT INTO TABLE review.review_satisfy_rpt_hbase select title,review_text,summary,'2' as satisfy,asin FROM review_satisfy_normal_rpt_tmp");
 		
 		spark.stop();
 		
