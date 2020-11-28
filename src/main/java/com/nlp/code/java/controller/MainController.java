@@ -42,12 +42,12 @@ public class MainController {
     @RequestMapping(value = "/queryList")
     public String queryProductList(Model model){
         log.info("queryProductList start===");
-        List<ProductEntity> list = productListService.getProductList();
-		/*
-		 * List<ProductEntity> list = new ArrayList<>(); ProductEntity entity = new
-		 * ProductEntity(); entity.setAsin("1"); entity.setTitle("Book");
-		 * entity.setPrice("99.8"); list.add(entity);
-		 */
+        //List<ProductEntity> list = productListService.getProductList();
+		
+		List<ProductEntity> list = new ArrayList<>(); 
+		ProductEntity entity = new ProductEntity(); entity.setAsin("1"); entity.setTitle("Book");
+		entity.setPrice("99.8"); list.add(entity);
+		 
         model.addAttribute("productList",list);
         log.info("queryProductList end===");
         return "index";
